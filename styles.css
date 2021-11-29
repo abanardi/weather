@@ -1,0 +1,122 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+body{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(61, 61, 61);
+}
+
+.panel{
+    width: 40rem;
+    height: 33rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-panel{
+    background-color: skyblue;
+    font-size: 2rem;
+}
+
+.location, .hi-low, .date, .weather{
+    display: flex;
+    width: 100%;
+}
+
+.hi-low{
+    justify-content: flex-end;
+}
+
+.weather{
+    display: flex;
+    flex-flow: column wrap;
+    
+}
+
+.temp{
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+.condition{
+    font-size: 2rem;
+
+}
+
+.location-icon{
+    width: 2rem;
+}
+
+.condition-image{
+    width: 25%;
+}
+
+.future-hours{
+    background-color:bisque;
+}
+
+.conditions > p{
+    text-align: center;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue;
+    height: 12rem;
+    width: 8rem;
+    
+}
+
+.hour, .day{
+    margin-top: 2rem;
+}
+.card > p{
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.future-days{
+    background-color: aquamarine;
+}
+
+.conditions{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: black;
+    width: 100;
+}
+
+.future-condition{
+    width: 50%;
+}
+
+.hour-cards, .day-cards{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 3rem;
+
+}
+
+
+.change-location{
+    height: 5rem;
+    width: 20rem;
+    margin-top: 2.5rem;
+
+}
