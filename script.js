@@ -9,16 +9,17 @@ newYork = apiAccess(40.7128, -74.006, 'imperial')
 stateCollege = apiAccess(40.7934, -77.8600, 'imperial');
 denver = apiAccess(39.7392, -104.9903, 'imperial');
 london = apiAccess(51.5072, -0.1276, 'imperial')
+surabaya = apiAccess(-7.2575, 112.7521, 'imperial');
 
-request.open('GET', newYork, true)
+request.open('GET', denver, true)
 
-const dayNames = ['Monday',
+const dayNames = ['Sunday',
+            'Monday',
             'Tuesday',
             'Wednesday',
             'Thursday',
             'Friday',
-            'Saturday',
-            'Sunday'
+            'Saturday'
         ]
 
 const monthNames = ['January',
@@ -55,9 +56,11 @@ function getTime(dt){
     let minutes = date.getMinutes();
     let seconds = date.getSeconds();
 
-    console.log(hours);
-    console.log(minutes);
-    console.log(seconds);
+    // console.log(hours);
+    // console.log(minutes);
+    // console.log(seconds);
+
+    return hours + ':' + minutes + '0';
 
 }
 
@@ -129,7 +132,7 @@ request.onload = function (){
     var i = 1;
     hourCards.forEach(element => {
         let img = `<img src="conditions/if-weather-3-2682848_90785.ico" class="future-condition">`;
-        let hour = `<p class="hour">${data.hourly[i].dt}</p>`;
+        let hour = `<p class="hour">${getTime(data.hourly[i].dt)}</p>`;
         let futureTemp = `<p class="future-temp">${Math.round(data.hourly[i].temp)} F</p>`
         let cardContent = img+hour+futureTemp;
         element.innerHTML = cardContent;
