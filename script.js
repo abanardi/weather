@@ -13,8 +13,11 @@ surabaya = apiAccess(-7.2575, 112.7521, 'imperial');
 chicago = apiAccess(41.8781, -87.62998, 'imperial');
 losAngeles = apiAccess(34.0522, -118.2437, 'imperial');
 lasVegas = apiAccess(36.1699, -115.1398, 'imperial');
+melbourne = apiAccess(-37.8136, 144.9631, 'imperial');
+auckland = apiAccess(-36.8509, 174.7645, 'imperial');
+tarawa = apiAccess(1.4518, 172.9717, 'imperial');
 
-request.open('GET', stateCollege, true)
+request.open('GET', auckland, true)
 
 const dayNames = ['Sunday',
             'Monday',
@@ -72,6 +75,10 @@ function getHour(offset){
     currentHour = date.getUTCHours();
     hourOffset = offset/3600;
     output = currentHour + hourOffset;
+    //Add something that takes care of case where the time is greater than 24
+    // For example, if it's 11PM UTC, the clock might just return
+    // something higher than 24 in the future hour cards.
+    
     if(output >= 0){
         return output
     }
