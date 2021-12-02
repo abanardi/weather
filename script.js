@@ -10,8 +10,11 @@ stateCollege = apiAccess(40.7934, -77.8600, 'imperial');
 denver = apiAccess(39.7392, -104.9903, 'imperial');
 london = apiAccess(51.5072, -0.1276, 'imperial')
 surabaya = apiAccess(-7.2575, 112.7521, 'imperial');
+chicago = apiAccess(41.8781, -87.62998, 'imperial');
+losAngeles = apiAccess(34.0522, -118.2437, 'imperial');
+lasVegas = apiAccess(36.1699, -115.1398, 'imperial');
 
-request.open('GET', denver, true)
+request.open('GET', stateCollege, true)
 
 const dayNames = ['Sunday',
             'Monday',
@@ -64,7 +67,19 @@ function getTime(dt){
 
 }
 
-getTime(1638312765);
+function getHour(offset){
+    date = new Date();
+    currentHour = date.getUTCHours();
+    hourOffset = offset/3600;
+    output = currentHour + hourOffset;
+    if(output >= 0){
+        return output
+    }
+    else{
+        return 24 + output;
+    }
+}
+
 
 request.onload = function (){
     let data = JSON.parse(this.response);
@@ -129,14 +144,36 @@ request.onload = function (){
     feelsLike.forEach(element => {
         element.innerHTML = 'Feels Like: ' + Math.round(feelsLikeOutput) + ' F';    
     });
-    var i = 1;
+    var additionalHour = 1;
+
     hourCards.forEach(element => {
+        let hourDigit = getHour(data.timezone_offset);
+        output = hourDigit + additionalHour;
+        let post = '';
+        if(output >= 24){
+            output -= 24;
+        }
+
+        if(output >= 12){
+            output -= 12;
+            post = 'PM';
+        }
+        else if(output === 0){
+            output = 12;
+            post = 'AM';
+        }
+        else{
+            post = 'AM';
+        }
+
+        
+        let hour = `<p class="hour">${output + ' ' + post}</p>`;
+
         let img = `<img src="conditions/if-weather-3-2682848_90785.ico" class="future-condition">`;
-        let hour = `<p class="hour">${getTime(data.hourly[i].dt)}</p>`;
-        let futureTemp = `<p class="future-temp">${Math.round(data.hourly[i].temp)} F</p>`
+        let futureTemp = `<p class="future-temp">${Math.round(data.hourly[additionalHour].temp)} F</p>`
         let cardContent = img+hour+futureTemp;
         element.innerHTML = cardContent;
-        i++;
+        additionalHour++;
     });
     
 
