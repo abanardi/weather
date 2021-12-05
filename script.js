@@ -16,8 +16,10 @@ lasVegas = apiAccess(36.1699, -115.1398, 'imperial');
 melbourne = apiAccess(-37.8136, 144.9631, 'imperial');
 auckland = apiAccess(-36.8509, 174.7645, 'imperial');
 tarawa = apiAccess(1.4518, 172.9717, 'imperial');
+mumbai = apiAccess(19.0760, 72.8777, 'imperial');
+adelaide = apiAccess(-34.9285, 138.6007,'imperial');
 
-request.open('GET', auckland, true)
+request.open('GET', stateCollege, true)
 
 const dayNames = ['Sunday',
             'Monday',
@@ -74,7 +76,7 @@ function getHour(offset){
     date = new Date();
     currentHour = date.getUTCHours();
     hourOffset = offset/3600;
-    output = currentHour + hourOffset;
+    output = Math.trunc(currentHour + hourOffset);
     //Add something that takes care of case where the time is greater than 24
     // For example, if it's 11PM UTC, the clock might just return
     // something higher than 24 in the future hour cards.
@@ -153,6 +155,7 @@ request.onload = function (){
     });
     var additionalHour = 1;
 
+    // Set inner HTML
     hourCards.forEach(element => {
         let hourDigit = getHour(data.timezone_offset);
         output = hourDigit + additionalHour;
@@ -161,13 +164,16 @@ request.onload = function (){
             output -= 24;
         }
 
-        if(output >= 12){
+        if(output > 12){
             output -= 12;
             post = 'PM';
         }
         else if(output === 0){
             output = 12;
             post = 'AM';
+        }
+        else if(output === 12){
+            post = 'PM';
         }
         else{
             post = 'AM';
@@ -198,4 +204,3 @@ request.onload = function (){
 
 
 request.send();
-
