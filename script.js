@@ -55,22 +55,39 @@ function getDate(dt){
     return dayNames[day] + ' ' + monthNames[month] + ' ' + number + ', ' + year
 }
 
-
-
-function getTime(dt){
-    let date = new Date(dt * 1000);
-
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let seconds = date.getSeconds();
-
-    // console.log(hours);
-    // console.log(minutes);
-    // console.log(seconds);
-
-    return hours + ':' + minutes + '0';
-
+function getlocalDate(offset){
+    date = new Date();
+    currentHour = date.getUTCHours();
+    hourOffset = offset/3600;
+    localHour = Math.trunc(currentHour + hourOffset);
+    
+    if(localHour < 0){
+        date.setDate(date.getDate()-1);
+    }
+    else if(localHour >= 24){
+        date.setDate(date.getDate()+1);
+    }
+    currentDay = date.getUTCDay();
+    currentMonth = date.getUTCMonth();
+    currentDate = date.getUTCDate();
+    currentYear = date.getUTCFullYear();
+    return dayNames[currentDay] + ' ' + monthNames[currentMonth] + ' ' + currentDate + ', ' + currentYear;
 }
+
+// function getTime(dt){
+//     let date = new Date(dt * 1000);
+
+//     let hours = date.getHours();
+//     let minutes = date.getMinutes();
+//     let seconds = date.getSeconds();
+
+//     // console.log(hours);
+//     // console.log(minutes);
+//     // console.log(seconds);
+
+//     return hours + ':' + minutes + '0';
+
+// }
 
 function getHour(offset){
     date = new Date();
@@ -113,7 +130,7 @@ request.onload = function (){
     let hi = Math.round(data.daily[0].temp.max);
     let low = Math.round(data.daily[0].temp.min);
     let hiLowOutput =  hi + '/' + low;
-    let dateOutput = getDate(data.current.dt);
+    let dateOutput = getlocalDate(data.timezone_offset);
     let conditionOutput = data.current.weather[0].main;
 
 
@@ -121,6 +138,7 @@ request.onload = function (){
     temp.innerHTML = Math.round(tempOutput) + ' F';
     hiLow.innerHTML = hiLowOutput + ' F';
     date.innerHTML = dateOutput;
+    console.log(date.innerHTML);
     condition.innerHTML = conditionOutput;
 
 
@@ -137,13 +155,15 @@ request.onload = function (){
     let feelsLike = document.querySelectorAll('.feels-like');
     let hourCards = document.querySelectorAll('.hour-cards .card');
 
-    // let hour (future time)
-    // let future-temp (future temperature at said time)
 
     // Gather all Values
     let humidityOutput = data.current.humidity;
     let windOutput = data.current.wind_speed;
     let feelsLikeOutput = data.current.feels_like;
+
+
+
+    // Set inner HTML
     humidity.forEach(element => {
         element.innerHTML = 'Humidity: ' + humidityOutput + ' %'; 
     });
@@ -155,7 +175,6 @@ request.onload = function (){
     });
     var additionalHour = 1;
 
-    // Set inner HTML
     hourCards.forEach(element => {
         let hourDigit = getHour(data.timezone_offset);
         output = hourDigit + additionalHour;
@@ -193,10 +212,31 @@ request.onload = function (){
 
 
 
+    // Select all inner HTML
+    let dayCards = document.querySelectorAll('.day-cards .card');
+    
+
+    // Gather values
+    
+  
+  
+  
+  
     // Set inner HTML
+    var additionalDay = 1;
+    dayCards.forEach(element => {
+    
+        let dayCondition = `<img src="conditions/if-weather-3-2682848_90785.ico" class="future-condition">`;
+        let futureDay = `<p class="day">Mon</p>`;
+        let high = data.daily[additionalDay].temp.max;
+        let low = data.daily[additionalDay].temp.min;
+        let dayHiLow = `<p class="future-temp">${Math.round(high)}/${Math.round(low)}</p>`
+        let cardContent = dayCondition+futureDay+dayHiLow;
+        element.innerHTML = cardContent;
+        additionalDay += 1;
 
-
-
+    });
+    
 
 
 
