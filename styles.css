@@ -27,6 +27,7 @@ body{
     font-size: 2rem;
 }
 
+
 .location, .hi-low, .date, .weather{
     display: flex;
     width: 100%;
@@ -119,4 +120,11 @@ body{
     width: 20rem;
     margin-top: 2.5rem;
 
+}
+
+.overlay{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: blanchedalmond;
 }
