@@ -6,12 +6,16 @@
 
 html {
   font-size: 62.5%;
+  height: 100%;
 }
 
 body {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   background-color: rgb(61, 61, 61);
+  height: 100%;
 }
 
 .panel {
