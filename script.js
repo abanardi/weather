@@ -138,12 +138,16 @@ function render(location, units) {
     let hiLowOutput = hi + "/" + low;
     let dateOutput = getlocalDate(data.timezone_offset);
     let conditionOutput = data.current.weather[0].main;
+    let conditionImageID = data.current.weather[0].icon;
 
     // Set inner HTML
     temp.innerHTML = Math.round(tempOutput) + " " + tempUnit;
     hiLow.innerHTML = hiLowOutput + " " + tempUnit;
     date.innerHTML = dateOutput;
     condition.innerHTML = conditionOutput;
+    let conditionImage = document.getElementsByClassName("condition-image")[0];
+    conditionImage.src =
+      "http://openweathermap.org/img/wn/" + conditionImageID + "@2x.png";
 
     // Future Hours Panel
 
@@ -193,7 +197,16 @@ function render(location, units) {
 
       let hour = `<p class="hour">${output + " " + post}</p>`;
 
-      let img = `<img src="conditions/if-weather-3-2682848_90785.ico" class="future-condition">`;
+      let conditionImageID = data.hourly[additionalHour].weather[0].icon;
+      // console.log(conditionImageID);
+      condition.innerHTML = conditionOutput;
+      let conditionImage =
+        document.getElementsByClassName("future-condition")[additionalHour];
+      conditionImage.src =
+        "http://openweathermap.org/img/wn/" + conditionImageID + "@2x.png";
+
+      let img = `<img src="${conditionImage.src}" class="future-condition">`;
+
       let futureTemp = `<p class="future-temp">${Math.round(
         data.hourly[additionalHour].temp
       )} ${tempUnit}</p>`;
@@ -212,7 +225,16 @@ function render(location, units) {
       if (today === 7) {
         today = 0;
       }
-      let dayCondition = `<img src="conditions/if-weather-3-2682848_90785.ico" class="future-condition">`;
+
+      let conditionImageID = data.daily[additionalDay].weather[0].icon;
+      // console.log(conditionImageID);
+      condition.innerHTML = conditionOutput;
+      let conditionImage =
+        document.getElementsByClassName("future-condition")[additionalDay];
+      conditionImage.src =
+        "http://openweathermap.org/img/wn/" + conditionImageID + "@2x.png";
+
+      let dayCondition = `<img src="${conditionImage.src}" class="future-condition">`;
       let futureDay = `<p class="day">${dayNames[today].substr(0, 3)}</p>`;
       let high = data.daily[additionalDay].temp.max;
       let low = data.daily[additionalDay].temp.min;
@@ -230,7 +252,7 @@ function render(location, units) {
 
 // Happening on screen
 
-let cityCoordinates = new city(40.7934, -77.86);
+// let cityCoordinates = new city(40.7934, -77.86);
 let units = "imperial";
 
 async function changeCoords(cityQuery) {
@@ -257,8 +279,8 @@ async function changeCoords(cityQuery) {
           }</p>`;
         }
       }
-      console.log(data);
-      console.log(data.length);
+      // console.log(data);
+      // console.log(data.length);
       //console.log(data[1].boundingbox);
     })
     .then(() => {
@@ -275,18 +297,46 @@ async function changeCoords(cityQuery) {
           document
             .querySelector(".overlay")
             .setAttribute("class", "overlay-hidden");
-          console.log(coord[0].innerHTML);
+          // console.log(coord[0].innerHTML);
           let coordArray = coord[0].innerHTML.split(",");
-          console.log(coordArray);
+          // console.log(coordArray);
           document.querySelector(".lat").innerHTML = coordArray[0];
           document.querySelector(".lon").innerHTML = coordArray[1];
+          document.querySelector(".city").innerHTML = button.innerHTML;
           render(apiAccess(coordArray[0], coordArray[1], units), units);
         })
       );
     });
 }
 
-render(apiAccess(cityCoordinates.lat, cityCoordinates.lon, units), units);
+navigator.geolocation.getCurrentPosition((showPosition) => {
+  const p = showPosition.coords;
+  // console.log(p.latitude, p.longitude);
+
+  fetch(
+    "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" +
+      p.latitude +
+      "&lon=" +
+      p.longitude +
+      "&zoom=10"
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      // console.log(data);
+      document.querySelector(".city").innerHTML =
+        data.address.city +
+        ", " +
+        data.address.county +
+        ", " +
+        data.address.state +
+        ", " +
+        data.address.country;
+    });
+
+  render(apiAccess(p.latitude, p.longitude, units), units);
+});
+
+// render(apiAccess(cityCoordinates.lat, cityCoordinates.lon, units), units);
 
 unitChanger = document.querySelector(".change-units");
 unitChanger.addEventListener("click", () => {
@@ -323,7 +373,7 @@ document.querySelector(".close").addEventListener("click", () => {
 
 document.querySelector(".search-bar").addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
-    console.log("Trigger");
+    // console.log("Trigger");
     let citySearch = document.getElementById("city-name").value;
     changeCoords(citySearch);
   }

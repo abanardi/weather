@@ -31,6 +31,10 @@ body {
   font-size: 2rem;
 }
 
+.hidden {
+  display: none;
+}
+
 .location,
 .hi-low,
 .date,
@@ -58,11 +62,12 @@ body {
 }
 
 .location-icon {
-  width: 2rem;
+  height: 2rem;
 }
 
 .condition-image {
-  width: 25%;
+  min-width: 100px;
+  max-width: 100px;
 }
 
 .future-hours {
