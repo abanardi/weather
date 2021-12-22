@@ -1,130 +1,181 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-    font-size: 62.5%;
+html {
+  font-size: 62.5%;
 }
 
-body{
-    display: flex;
-    flex-wrap: wrap;
-    background-color: rgb(61, 61, 61);
+body {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgb(61, 61, 61);
 }
 
-.panel{
-    width: 40rem;
-    height: 33rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.panel {
+  width: 40rem;
+  height: 33rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.main-panel{
-    background-color: skyblue;
-    font-size: 2rem;
+.main-panel {
+  background-color: skyblue;
+  font-size: 2rem;
 }
 
-
-.location, .hi-low, .date, .weather{
-    display: flex;
-    width: 100%;
+.location,
+.hi-low,
+.date,
+.weather {
+  display: flex;
+  width: 100%;
 }
 
-.hi-low{
-    justify-content: flex-end;
+.hi-low {
+  justify-content: flex-end;
 }
 
-.weather{
-    display: flex;
-    flex-flow: column wrap;
-    
+.weather {
+  display: flex;
+  flex-flow: column wrap;
 }
 
-.temp{
-    font-size: 5rem;
-    font-weight: bold;
+.temp {
+  font-size: 5rem;
+  font-weight: bold;
 }
 
-.condition{
-    font-size: 2rem;
-
+.condition {
+  font-size: 2rem;
 }
 
-.location-icon{
-    width: 2rem;
+.location-icon {
+  width: 2rem;
 }
 
-.condition-image{
-    width: 25%;
+.condition-image {
+  width: 25%;
 }
 
-.future-hours{
-    background-color:bisque;
+.future-hours {
+  background-color: bisque;
 }
 
-.conditions > p{
-    text-align: center;
+.conditions > p {
+  text-align: center;
 }
 
-.card{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: aliceblue;
-    height: 12rem;
-    width: 8rem;
-    
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: aliceblue;
+  height: 12rem;
+  width: 8rem;
 }
 
-.hour, .day{
-    margin-top: 2rem;
+.hour,
+.day {
+  margin-top: 2rem;
 }
-.card > p{
-    text-align: center;
-    font-size: 1.5rem;
-}
-
-.future-days{
-    background-color: aquamarine;
+.card > p {
+  text-align: center;
+  font-size: 1.5rem;
 }
 
-.conditions{
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    color: black;
-    width: 100;
+.future-days {
+  background-color: aquamarine;
 }
 
-.future-condition{
-    width: 50%;
+.conditions {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: black;
+  width: 100;
 }
 
-.hour-cards, .day-cards{
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-top: 3rem;
-
+.future-condition {
+  width: 50%;
 }
 
-
-.change-location{
-    height: 5rem;
-    width: 20rem;
-    margin-top: 2.5rem;
-
+.hour-cards,
+.day-cards {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 3rem;
 }
 
-.overlay{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    background-color: blanchedalmond;
+.change-location {
+  height: 5rem;
+  width: 20rem;
+  margin-top: 2.5rem;
+}
+
+.overlay {
+  position: fixed;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(9, 8, 27, 0.75);
+  height: 100%;
+  width: 100%;
+}
+
+.overlay-hidden {
+  display: none;
+}
+
+.close {
+  width: 6rem;
+  height: 6rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.search-bar {
+  height: 5rem;
+  width: 20rem;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.city-result {
+  color: white;
+  font-size: 2rem;
+}
+
+.no-result {
+  color: white;
+  font-size: 2rem;
+}
+
+.city-result:hover {
+  color: lightblue;
+  cursor: pointer;
+}
+
+.coordinate-result {
+  color: aqua;
+  font-size: 2rem;
+  visibility: hidden;
+}
+
+.dummy > p {
+  color: white;
+  font-size: 5rem;
+}
+
+.dummy {
+  display: none;
 }
