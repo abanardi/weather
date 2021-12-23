@@ -308,35 +308,45 @@ async function changeCoords(cityQuery) {
       );
     });
 }
+function getCurrentWeather() {
+  navigator.geolocation.getCurrentPosition((showPosition) => {
+    const p = showPosition.coords;
+    // console.log(p.latitude, p.longitude);
 
-navigator.geolocation.getCurrentPosition((showPosition) => {
-  const p = showPosition.coords;
-  // console.log(p.latitude, p.longitude);
+    fetch(
+      "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" +
+        p.latitude +
+        "&lon=" +
+        p.longitude +
+        "&zoom=10"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        document.querySelector(".lat").innerHTML = p.latitude;
+        document.querySelector(".lon").innerHTML = p.longitude;
 
-  fetch(
-    "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" +
-      p.latitude +
-      "&lon=" +
-      p.longitude +
-      "&zoom=10"
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      // console.log(data);
-      document.querySelector(".city").innerHTML =
-        data.address.city +
-        ", " +
-        data.address.county +
-        ", " +
-        data.address.state +
-        ", " +
-        data.address.country;
-    });
+        document.querySelector(".city").innerHTML =
+          data.address.city +
+          ", " +
+          data.address.county +
+          ", " +
+          data.address.state +
+          ", " +
+          data.address.country;
+      });
 
-  render(apiAccess(p.latitude, p.longitude, units), units);
-});
+    render(apiAccess(p.latitude, p.longitude, units), units);
+  });
+}
 
+getCurrentWeather();
 // render(apiAccess(cityCoordinates.lat, cityCoordinates.lon, units), units);
+
+currentLocation = document.querySelector(".location-icon");
+currentLocation.addEventListener("click", () => {
+  getCurrentWeather();
+});
 
 unitChanger = document.querySelector(".change-units");
 unitChanger.addEventListener("click", () => {
@@ -360,12 +370,23 @@ unitChanger.addEventListener("click", () => {
     render(apiAccess(cityCoordinates.lat, cityCoordinates.lon, units), units);
   }
 });
+
 changeLocation = document.querySelectorAll(".change-location");
 changeLocation.forEach((button) =>
   button.addEventListener("click", () => {
     document.querySelector(".overlay-hidden").setAttribute("class", "overlay");
   })
 );
+
+document.querySelector(".change-days").addEventListener("click", () => {
+  document.querySelector(".hidden").setAttribute("class", "future-days panel");
+  document.querySelector(".future-hours").setAttribute("class", "hidden");
+});
+
+document.querySelector(".change-hours").addEventListener("click", () => {
+  document.querySelector(".hidden").setAttribute("class", "future-hours panel");
+  document.querySelector(".future-days").setAttribute("class", "hidden");
+});
 
 document.querySelector(".close").addEventListener("click", () => {
   document.querySelector(".overlay").setAttribute("class", "overlay-hidden");

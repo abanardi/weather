@@ -5,6 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather in New York</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Titillium+Web:ital,wght@0,200;0,300;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
   </head>
@@ -25,16 +31,14 @@
         <p class="city"></p>
       </div>
       <div class="weather">
-        <img
-          src=""
-          alt=""
-          class="condition-image"
-        />
+        <img src="" alt="" class="condition-image" />
         <p class="temp"></p>
-        <p class="condition"></p>
-      </div>
-      <div class="units">
-        <button class="change-units">Metric</button>
+        <div class="bottom-row">
+          <p class="condition"></p>
+          <div class="units">
+            <button class="change-units">Metric</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -46,46 +50,31 @@
       </div>
       <div class="hour-cards">
         <div class="card">
-          <img
-            src=""
-            alt=""
-            class="future-condition"
-          />
+          <img src="" alt="" class="future-condition" />
           <p class="hour"></p>
           <p class="future-temp"></p>
         </div>
         <div class="card">
-          <img
-            src=""
-            alt=""
-            class="future-condition"
-          />
+          <img src="" alt="" class="future-condition" />
           <p class="hour"></p>
           <p class="future-temp"></p>
         </div>
         <div class="card">
-          <img
-            src=""
-            alt=""
-            class="future-condition"
-          />
+          <img src="" alt="" class="future-condition" />
           <p class="hour"></p>
           <p class="future-temp"></p>
         </div>
         <div class="card">
-          <img
-            src=""
-            alt=""
-            class="future-condition"
-          />
+          <img src="" alt="" class="future-condition" />
           <p class="hour"></p>
           <p class="future-temp"></p>
         </div>
       </div>
       <button class="change-location">Change Location</button>
+      <button class="change-days">Days</button>
     </div>
 
-    <div class="future-days panel">
+    <div class="hidden">
       <div class="conditions">
         <p class="humidity"></p>
         <p class="wind"></p>
@@ -93,43 +82,28 @@
       </div>
       <div class="day-cards">
         <div class="card">
-          <img
-            src=""
-            alt=""
-            class="future-condition"
-          />
+          <img src="" alt="" class="future-condition" />
           <p class="day"></p>
           <p class="future-temp"></p>
         </div>
         <div class="card">
-          <img
-            src=""
-            alt=""
-            class="future-condition"
-          />
+          <img src="" alt="" class="future-condition" />
           <p class="day"></p>
           <p class="future-temp"></p>
         </div>
         <div class="card">
-          <img
-            src=""
-            alt=""
-            class="future-condition"
-          />
+          <img src="" alt="" class="future-condition" />
           <p class="day"></p>
           <p class="future-temp"></p>
         </div>
         <div class="card">
-          <img
-            src=""
-            alt=""
-            class="future-condition"
-          />
+          <img src="" alt="" class="future-condition" />
           <p class="day"></p>
           <p class="future-temp"></p>
         </div>
       </div>
       <button class="change-location">Change Location</button>
+      <button class="change-hours">Hours</button>
     </div>
     <div class="dummy">
       <p class="lat"></p>

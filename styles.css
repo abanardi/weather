@@ -7,6 +7,7 @@
 html {
   font-size: 62.5%;
   height: 100%;
+  font-family: "Titillium Web", sans-serif;
 }
 
 body {
@@ -14,7 +15,10 @@ body {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  background-color: rgb(61, 61, 61);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("misc/mountainBackground.jpeg");
+
+  background-position: center top;
   height: 100%;
 }
 
@@ -28,7 +32,10 @@ body {
 
 .main-panel {
   background-color: skyblue;
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)),
+    url("conditions/partly-cloudy-night.jpg");
   font-size: 2rem;
+  color: white;
 }
 
 .hidden {
@@ -61,8 +68,17 @@ body {
   font-size: 2rem;
 }
 
+.bottom-row {
+  display: flex;
+  flex-direction: row;
+}
+
 .location-icon {
   height: 2rem;
+}
+
+.location-icon:hover {
+  cursor: pointer;
 }
 
 .condition-image {
@@ -71,11 +87,12 @@ body {
 }
 
 .future-hours {
-  background-color: bisque;
+  background-color: lightslategray;
 }
 
 .conditions > p {
   text-align: center;
+  color: white;
 }
 
 .card {
@@ -83,7 +100,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: aliceblue;
+  background-color: rgb(3, 179, 179);
   height: 12rem;
   width: 8rem;
 }
@@ -95,10 +112,11 @@ body {
 .card > p {
   text-align: center;
   font-size: 1.5rem;
+  color: white;
 }
 
 .future-days {
-  background-color: aquamarine;
+  background-color: lightslategray;
 }
 
 .conditions {
@@ -107,7 +125,6 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 2rem;
-  color: black;
   width: 100;
 }
 
@@ -123,10 +140,25 @@ body {
   margin-top: 3rem;
 }
 
+.change-units {
+  margin-left: 30rem;
+  margin-bottom: 1rem;
+}
+
 .change-location {
   height: 5rem;
   width: 20rem;
   margin-top: 2.5rem;
+}
+
+.change-days {
+  top: 1rem;
+  right: 1rem;
+}
+
+.change-hours {
+  top: 1rem;
+  right: 1rem;
 }
 
 .overlay {
