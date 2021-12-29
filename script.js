@@ -6,28 +6,28 @@ function apiAccess(lat, lon, units) {
 }
 
 const dayNames = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
 ];
 
 const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 function getDate(dt) {
@@ -38,7 +38,7 @@ function getDate(dt) {
   let number = date.getDate().toString();
   let year = date.getFullYear().toString();
 
-  return dayNames[day] + " " + monthNames[month] + " " + number + ", " + year;
+  return dayNames[day] + ' ' + monthNames[month] + ' ' + number + ', ' + year;
 }
 
 function getlocalDate(offset) {
@@ -58,11 +58,11 @@ function getlocalDate(offset) {
   currentYear = date.getUTCFullYear();
   return (
     dayNames[currentDay] +
-    " " +
+    ' ' +
     monthNames[currentMonth] +
-    " " +
+    ' ' +
     currentDate +
-    ", " +
+    ', ' +
     currentYear
   );
 }
@@ -105,57 +105,83 @@ class city {
 }
 
 function render(location, units) {
-  request.open("GET", location, true);
+  request.open('GET', location, true);
 
   request.onload = function () {
-    if (units === "imperial") {
-      var tempUnit = "F";
-      var speedUnit = "mph";
-    } else if (units === "metric") {
-      var tempUnit = "C";
-      var speedUnit = "m/s";
+    if (units === 'imperial') {
+      var tempUnit = 'F';
+      var speedUnit = 'mph';
+    } else if (units === 'metric') {
+      var tempUnit = 'C';
+      var speedUnit = 'm/s';
     }
+
+    const conditions = {
+      '01': 'clear',
+      '02': 'partly-cloudy',
+      '03': 'partly-cloudy',
+      '04': 'cloudy',
+      '09': 'rain',
+      10: 'rain',
+      11: 'thunder',
+      13: 'snow',
+      50: 'mist',
+      d: '-day',
+      n: '-night',
+    };
+
+
 
     let data = JSON.parse(this.response);
     // console.log(data);
 
+
     // Main Panel
 
     // Select all inner HTML
-    let hiLow = document.querySelector(".temps");
+    let hiLow = document.querySelector('.temps');
 
-    let date = document.querySelector(".date-written");
+    let date = document.querySelector('.date-written');
 
-    let city = document.querySelector(".city");
+    let city = document.querySelector('.city');
 
-    let temp = document.querySelector(".temp");
-    let condition = document.querySelector(".condition");
+    let temp = document.querySelector('.temp');
+    let condition = document.querySelector('.condition');
 
     // Gather all values
     let tempOutput = data.current.temp;
     let hi = Math.round(data.daily[0].temp.max);
     let low = Math.round(data.daily[0].temp.min);
-    let hiLowOutput = hi + "/" + low;
+    let hiLowOutput = hi + '/' + low;
     let dateOutput = getlocalDate(data.timezone_offset);
     let conditionOutput = data.current.weather[0].main;
     let conditionImageID = data.current.weather[0].icon;
+    let conditionBackground =
+      conditions[conditionImageID.substr(0, 2)] +
+      conditions[conditionImageID.substr(2, 1)];
+
 
     // Set inner HTML
-    temp.innerHTML = Math.round(tempOutput) + " " + tempUnit;
-    hiLow.innerHTML = hiLowOutput + " " + tempUnit;
+    temp.innerHTML = Math.round(tempOutput) + ' ' + tempUnit;
+    hiLow.innerHTML = hiLowOutput + ' ' + tempUnit;
     date.innerHTML = dateOutput;
     condition.innerHTML = conditionOutput;
-    let conditionImage = document.getElementsByClassName("condition-image")[0];
+    let conditionImage = document.getElementsByClassName('condition-image')[0];
     conditionImage.src =
-      "http://openweathermap.org/img/wn/" + conditionImageID + "@2x.png";
+      'http://openweathermap.org/img/wn/' + conditionImageID + '@2x.png';
+
+    // Modify inner CSS
+    let main = document.getElementById('main');
+    main.style.background = `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url(${'conditions/' + conditionBackground + '.jpg'})`;
+
 
     // Future Hours Panel
 
     // Select all inner HTML
-    let humidity = document.querySelectorAll(".humidity");
-    let wind = document.querySelectorAll(".wind");
-    let feelsLike = document.querySelectorAll(".feels-like");
-    let hourCards = document.querySelectorAll(".hour-cards .card");
+    let humidity = document.querySelectorAll('.humidity');
+    let wind = document.querySelectorAll('.wind');
+    let feelsLike = document.querySelectorAll('.feels-like');
+    let hourCards = document.querySelectorAll('.hour-cards .card');
 
     // Gather all Values
     let humidityOutput = data.current.humidity;
@@ -164,46 +190,46 @@ function render(location, units) {
 
     // Set inner HTML
     humidity.forEach((element) => {
-      element.innerHTML = "Humidity: " + humidityOutput + " %";
+      element.innerHTML = 'Humidity: ' + humidityOutput + ' %';
     });
     wind.forEach((element) => {
-      element.innerHTML = "Wind: " + windOutput + " " + speedUnit;
+      element.innerHTML = 'Wind: ' + windOutput + ' ' + speedUnit;
     });
     feelsLike.forEach((element) => {
       element.innerHTML =
-        "Feels Like: " + Math.round(feelsLikeOutput) + " " + tempUnit;
+        'Feels Like: ' + Math.round(feelsLikeOutput) + ' ' + tempUnit;
     });
     var additionalHour = 1;
 
     hourCards.forEach((element) => {
       let hourDigit = getHour(data.timezone_offset);
       output = hourDigit + additionalHour;
-      let post = "";
+      let post = '';
       if (output >= 24) {
         output -= 24;
       }
 
       if (output > 12) {
         output -= 12;
-        post = "PM";
+        post = 'PM';
       } else if (output === 0) {
         output = 12;
-        post = "AM";
+        post = 'AM';
       } else if (output === 12) {
-        post = "PM";
+        post = 'PM';
       } else {
-        post = "AM";
+        post = 'AM';
       }
 
-      let hour = `<p class="hour">${output + " " + post}</p>`;
+      let hour = `<p class="hour">${output + ' ' + post}</p>`;
 
       let conditionImageID = data.hourly[additionalHour].weather[0].icon;
       // console.log(conditionImageID);
       condition.innerHTML = conditionOutput;
       let conditionImage =
-        document.getElementsByClassName("future-condition")[additionalHour];
+        document.getElementsByClassName('future-condition')[additionalHour];
       conditionImage.src =
-        "http://openweathermap.org/img/wn/" + conditionImageID + "@2x.png";
+        'http://openweathermap.org/img/wn/' + conditionImageID + '@2x.png';
 
       let img = `<img src="${conditionImage.src}" class="future-condition">`;
 
@@ -216,7 +242,7 @@ function render(location, units) {
     });
 
     // Select all inner HTML
-    let dayCards = document.querySelectorAll(".day-cards .card");
+    let dayCards = document.querySelectorAll('.day-cards .card');
 
     // Set inner HTML
     var additionalDay = 1;
@@ -230,16 +256,16 @@ function render(location, units) {
       // console.log(conditionImageID);
       condition.innerHTML = conditionOutput;
       let conditionImage =
-        document.getElementsByClassName("future-condition")[additionalDay];
+        document.getElementsByClassName('future-condition')[additionalDay];
       conditionImage.src =
-        "http://openweathermap.org/img/wn/" + conditionImageID + "@2x.png";
+        'http://openweathermap.org/img/wn/' + conditionImageID + '@2x.png';
 
       let dayCondition = `<img src="${conditionImage.src}" class="future-condition">`;
       let futureDay = `<p class="day">${dayNames[today].substr(0, 3)}</p>`;
       let high = data.daily[additionalDay].temp.max;
       let low = data.daily[additionalDay].temp.min;
       let dayHiLow = `<p class="future-temp">${Math.round(high)}/${
-        Math.round(low) + " " + tempUnit
+        Math.round(low) + ' ' + tempUnit
       }</p>`;
       let cardContent = dayCondition + futureDay + dayHiLow;
       element.innerHTML = cardContent;
@@ -253,19 +279,19 @@ function render(location, units) {
 // Happening on screen
 
 // let cityCoordinates = new city(40.7934, -77.86);
-let units = "imperial";
+let units = 'imperial';
 
 async function changeCoords(cityQuery) {
   let example = fetch(
-    "https://nominatim.openstreetmap.org/search?format=json&q=" + cityQuery
+    'https://nominatim.openstreetmap.org/search?format=json&q=' + cityQuery
   ).then((response) => response.json());
 
   example
     .then((data) => {
       // let latitude = document.querySelecet indextor(".lat");
       // let longitude = document.querySelector(".lon");
-      let results = document.querySelector(".results");
-      results.innerHTML = " ";
+      let results = document.querySelector('.results');
+      results.innerHTML = ' ';
       if (data.length === 0) {
         results.innerHTML += `<p class = 'no-result' >No results, try again</p>`;
       } else {
@@ -275,7 +301,7 @@ async function changeCoords(cityQuery) {
           let lat = (parseFloat(coords[0]) + parseFloat(coords[1])) / 2;
           let lon = (parseFloat(coords[2]) + parseFloat(coords[3])) / 2;
           results.innerHTML += `<p class='city-result ${city}'>${result}</p><p class = 'coordinate-result ${city}' >${
-            lat + "," + lon
+            lat + ',' + lon
           }</p>`;
         }
       }
@@ -284,25 +310,25 @@ async function changeCoords(cityQuery) {
       //console.log(data[1].boundingbox);
     })
     .then(() => {
-      let cities = document.querySelectorAll(".city-result");
+      let cities = document.querySelectorAll('.city-result');
 
       //let coord = document.querySelector(".coordinate-result.0");
 
       cities.forEach((button) =>
-        button.addEventListener("click", () => {
+        button.addEventListener('click', () => {
           let index = button.className.charAt(button.className.length - 1);
           let coord = document.getElementsByClassName(
-            "coordinate-result " + index
+            'coordinate-result ' + index
           );
           document
-            .querySelector(".overlay")
-            .setAttribute("class", "overlay-hidden");
+            .querySelector('.overlay')
+            .setAttribute('class', 'overlay-hidden');
           // console.log(coord[0].innerHTML);
-          let coordArray = coord[0].innerHTML.split(",");
+          let coordArray = coord[0].innerHTML.split(',');
           // console.log(coordArray);
-          document.querySelector(".lat").innerHTML = coordArray[0];
-          document.querySelector(".lon").innerHTML = coordArray[1];
-          document.querySelector(".city").innerHTML = button.innerHTML;
+          document.querySelector('.lat').innerHTML = coordArray[0];
+          document.querySelector('.lon').innerHTML = coordArray[1];
+          document.querySelector('.city').innerHTML = button.innerHTML;
           render(apiAccess(coordArray[0], coordArray[1], units), units);
         })
       );
@@ -314,25 +340,25 @@ function getCurrentWeather() {
     // console.log(p.latitude, p.longitude);
 
     fetch(
-      "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" +
+      'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' +
         p.latitude +
-        "&lon=" +
+        '&lon=' +
         p.longitude +
-        "&zoom=10"
+        '&zoom=10'
     )
       .then((response) => response.json())
       .then((data) => {
         // console.log(data);
-        document.querySelector(".lat").innerHTML = p.latitude;
-        document.querySelector(".lon").innerHTML = p.longitude;
+        document.querySelector('.lat').innerHTML = p.latitude;
+        document.querySelector('.lon').innerHTML = p.longitude;
 
-        document.querySelector(".city").innerHTML =
+        document.querySelector('.city').innerHTML =
           data.address.city +
-          ", " +
+          ', ' +
           data.address.county +
-          ", " +
+          ', ' +
           data.address.state +
-          ", " +
+          ', ' +
           data.address.country;
       });
 
@@ -343,59 +369,59 @@ function getCurrentWeather() {
 getCurrentWeather();
 // render(apiAccess(cityCoordinates.lat, cityCoordinates.lon, units), units);
 
-currentLocation = document.querySelector(".location-icon");
-currentLocation.addEventListener("click", () => {
+currentLocation = document.querySelector('.location-icon');
+currentLocation.addEventListener('click', () => {
   getCurrentWeather();
 });
 
-unitChanger = document.querySelector(".change-units");
-unitChanger.addEventListener("click", () => {
-  if (unitChanger.innerHTML === "Metric") {
-    unitChanger.innerHTML = "Imperial";
-    units = "metric";
+unitChanger = document.querySelector('.change-units');
+unitChanger.addEventListener('click', () => {
+  if (unitChanger.innerHTML === 'Metric') {
+    unitChanger.innerHTML = 'Imperial';
+    units = 'metric';
 
-    let cityLat = document.querySelector(".lat").innerHTML;
-    let cityLon = document.querySelector(".lon").innerHTML;
+    let cityLat = document.querySelector('.lat').innerHTML;
+    let cityLon = document.querySelector('.lon').innerHTML;
     cityCoordinates = new city(cityLat, cityLon);
 
     render(apiAccess(cityCoordinates.lat, cityCoordinates.lon, units), units);
-  } else if (unitChanger.innerHTML === "Imperial") {
-    unitChanger.innerHTML = "Metric";
-    units = "imperial";
+  } else if (unitChanger.innerHTML === 'Imperial') {
+    unitChanger.innerHTML = 'Metric';
+    units = 'imperial';
 
-    let cityLat = document.querySelector(".lat").innerHTML;
-    let cityLon = document.querySelector(".lon").innerHTML;
+    let cityLat = document.querySelector('.lat').innerHTML;
+    let cityLon = document.querySelector('.lon').innerHTML;
     cityCoordinates = new city(cityLat, cityLon);
 
     render(apiAccess(cityCoordinates.lat, cityCoordinates.lon, units), units);
   }
 });
 
-changeLocation = document.querySelectorAll(".change-location");
+changeLocation = document.querySelectorAll('.change-location');
 changeLocation.forEach((button) =>
-  button.addEventListener("click", () => {
-    document.querySelector(".overlay-hidden").setAttribute("class", "overlay");
+  button.addEventListener('click', () => {
+    document.querySelector('.overlay-hidden').setAttribute('class', 'overlay');
   })
 );
 
-document.querySelector(".change-days").addEventListener("click", () => {
-  document.querySelector(".hidden").setAttribute("class", "future-days panel");
-  document.querySelector(".future-hours").setAttribute("class", "hidden");
+document.querySelector('.change-days').addEventListener('click', () => {
+  document.querySelector('.hidden').setAttribute('class', 'future-days panel');
+  document.querySelector('.future-hours').setAttribute('class', 'hidden');
 });
 
-document.querySelector(".change-hours").addEventListener("click", () => {
-  document.querySelector(".hidden").setAttribute("class", "future-hours panel");
-  document.querySelector(".future-days").setAttribute("class", "hidden");
+document.querySelector('.change-hours').addEventListener('click', () => {
+  document.querySelector('.hidden').setAttribute('class', 'future-hours panel');
+  document.querySelector('.future-days').setAttribute('class', 'hidden');
 });
 
-document.querySelector(".close").addEventListener("click", () => {
-  document.querySelector(".overlay").setAttribute("class", "overlay-hidden");
+document.querySelector('.close').addEventListener('click', () => {
+  document.querySelector('.overlay').setAttribute('class', 'overlay-hidden');
 });
 
-document.querySelector(".search-bar").addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
+document.querySelector('.search-bar').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
     // console.log("Trigger");
-    let citySearch = document.getElementById("city-name").value;
+    let citySearch = document.getElementById('city-name').value;
     changeCoords(citySearch);
   }
 });
